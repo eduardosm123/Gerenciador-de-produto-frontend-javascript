@@ -2,7 +2,7 @@
 
 Aplicação que permite o cadastro de categorias e produtos   
 
-Tecnologias
+Tecnologias:   
 - Bootstrap   
 - React   
 - Javascript   
