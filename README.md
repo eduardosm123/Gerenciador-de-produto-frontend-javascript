@@ -5,4 +5,6 @@ Aplicação que permite o cadastro de categorias e produtos
 Tecnologias:   
 - Bootstrap   
 - React   
-- Javascript   
+- Javascript
+
+Executar localmente: npm run dev
