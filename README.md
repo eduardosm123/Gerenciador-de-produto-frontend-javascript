@@ -2,8 +2,9 @@
 
 Aplicação que permite o cadastro de categorias e produtos com paginação
 
-Tecnologias
+Tecnologias:   
 - Bootstrap   
 - React   
 - Javascript
 
+Executar localmente: npm run dev
