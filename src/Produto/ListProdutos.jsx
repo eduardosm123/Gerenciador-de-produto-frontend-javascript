@@ -7,23 +7,40 @@ import { Link } from "react-router-dom";
 
 function ListProdutos() {
     const [data, setData] = useState([])
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/product')
-            .then(res => setData(res.data))
+        axios.get(`http://localhost:3000/api/product/${page}&10`)
+            .then(res => { 
+                setData(res.data.product);
+                setTotalPages(res.data.totalPages);
+            })
             .catch(err => console.log(err))
-    }, []);
-
-    const navigate = useNavigate();
+    }, [page]);
+    
+   
     const handleDelete = (id) => {
         const confirm = window.confirm("Você tem certeza que quer deletar?")
         if (confirm) {
             axios.delete('http://localhost:3000/api/product/' + id).
-                then(res => {
-                    console.log(res);
+                then(res => { 
                     location.reload()
                 }).
                 catch(err => console.log(err));
+        }
+    }
+
+    const handlePreviousPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    }
+
+    const handleNextPage = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
         }
     }
 
@@ -50,7 +67,7 @@ function ListProdutos() {
                         </tr>
                     </thead>
                     <tbody>
-                        {data ? data.map((registro, key) => (
+                        {data && data.length > 0 ? data.map((registro, key) => (
                             <tr key={key}>
                                 <td>{registro._id}</td>
                                 <td>{registro.name}</td>
@@ -69,6 +86,11 @@ function ListProdutos() {
                             (<h1>Ainda nenhum registro cadastrado</h1>)}
                     </tbody>
                 </table>
+                <div className="d-flex justify-content-between mt-3">
+                    <button onClick={handlePreviousPage} className="btn btn-secondary" disabled={page === 1}>Anterior</button>
+                    <span>Página {page} de {totalPages}</span>
+                    <button onClick={handleNextPage} className="btn btn-secondary" disabled={page === totalPages}>Próxima</button>
+                </div>
             </div>
         </div>
     )
