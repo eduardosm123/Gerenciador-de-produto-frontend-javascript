@@ -59,7 +59,7 @@ function ListCategoria() {
                         </tr>
                     </thead>
                     <tbody>
-                        {data && data.length > 0 ? data.map((registro, key) => (
+                        {data.length > 0 ? data.map((registro, key) => (
                             <tr key={key}>
                                 <td>{registro._id}</td>
                                 <td>{registro.name}</td>
