@@ -7,22 +7,26 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { definirProdutoFormUpdateAndReadInicial, limparFormularioDeProdutoUpdateAndRead } from "../redux/reducers/produtoSlice";
-
+import { getProdutoById } from "../api/produto";
+import { useNavigate } from "react-router-dom";
 function ReadProduto() {
-     
+
 
     const data = useSelector((state) => state.produto.produtoForm.updateAndRead)
-    
+    const navigate = useNavigate();
     const dispatch = useDispatch()
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/product/' + id)
-            .then(res => {
-                console.log(res.data)
+        async function getProdutoByIdLocal() {
+            try {
+                const res = await getProdutoById(id);
                 dispatch(definirProdutoFormUpdateAndReadInicial(res.data))
-            })
-            .catch(err => console.log(err));
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getProdutoByIdLocal()
     }, []);
 
     const voltar = (event) => {

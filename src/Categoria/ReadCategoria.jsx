@@ -8,6 +8,7 @@ import { definirCategoriaFormUpdateAndReadInicial, limparFormularioUpdateAndRead
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getCategoriaById } from "../api/categoria";
 
 function ReadCategoria() {
 
@@ -18,13 +19,17 @@ function ReadCategoria() {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/category/' + id)
-            .then(res => {
-                console.log(res.data)
+        async function getCategoriaLocal() {
+            try {
+                const res = await getCategoriaById(id);
                 dispatch(definirCategoriaFormUpdateAndReadInicial(res.data))
-            })
-            .catch(err => console.log(err));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getCategoriaLocal();
     }, []);
+
     const voltar = (event) => {
         event.preventDefault();
         dispatch(limparFormularioUpdateAndRead())

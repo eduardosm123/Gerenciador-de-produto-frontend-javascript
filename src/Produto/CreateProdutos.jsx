@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { definirProdutoFormCreate, limparFormularioCreateProduto, definirCategoriaCreateProduto } from "../redux/reducers/produtoSlice";
 import { definirLista as definirListaCategoria, limparLista as limparListaCategoria } from "../redux/reducers/categoriaSlice";
+import { postProduto } from "../api/produto";
+import { getCategoria } from "../api/categoria";
 
 function CreateProdutos() {
 
@@ -15,29 +17,35 @@ function CreateProdutos() {
     const categorias = useSelector((state) => state.categoria.categoriasList.lista)
 
     const dispatch = useDispatch()
-    useEffect(() => {
-        axios.get('http://localhost:3000/api/category')
-            .then(res => dispatch(definirListaCategoria(res.data)))
-            .catch(err => console.log(err))
+    useEffect(() => { 
+        async function getCategoryLocal() {
+            try {
+                const res = await getCategoria()
+                dispatch(definirListaCategoria(res.data))
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getCategoryLocal()
     }, []);
 
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(values)
-        axios.post('http://localhost:3000/api/product', values).
-            then(res => { 
-                dispatch(limparListaCategoria())
-                dispatch(limparFormularioCreateProduto())
-                navigate("/produtos")
-            }).
-            catch(err => console.log(err))
+        try {
+            postProduto(values)
+            dispatch(limparListaCategoria())
+            dispatch(limparFormularioCreateProduto())
+            navigate("/produtos")
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if ( name === 'category') {
+        if (name === 'category') {
             dispatch(definirCategoriaCreateProduto(value))
         } else {
             dispatch(definirProdutoFormCreate({ campo: name, valor: value }));

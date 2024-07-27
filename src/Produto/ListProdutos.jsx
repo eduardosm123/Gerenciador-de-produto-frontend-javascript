@@ -6,48 +6,58 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { definirListaProdutos,  definirTotalPageProdutos, definirPageProdutos } from "../redux/reducers/produtoSlice";
+import { definirListaProdutos, definirTotalPageProdutos, definirPageProdutos } from "../redux/reducers/produtoSlice";
+import { deleteProduto, getProdutoPaginado } from "../api/produto";
 
 
 
-function ListProdutos() { 
+
+function ListProdutos() {
 
     const data = useSelector((state) => state.produto.produtosList.lista)
     const totalPages = useSelector((state) => state.produto.produtosList.totalPages)
     const page = useSelector((state) => state.produto.produtosList.pages)
-    
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/product/${page}&10`)
-            .then(res => {  
+        async function getProductProdutosLocal() {
+            try {
+                const res = await getProdutoPaginado(page)
                 dispatch(definirListaProdutos(res.data.product))
                 dispatch(definirTotalPageProdutos(res.data.totalPages))
-            })
-            .catch(err => console.log(err))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getProductProdutosLocal()
     }, [page]);
-    
-   
+
+
     const handleDelete = (id) => {
         const confirm = window.confirm("Você tem certeza que quer deletar?")
         if (confirm) {
-            axios.delete('http://localhost:3000/api/product/' + id).
-                then(res => { 
-                    location.reload()
-                }).
-                catch(err => console.log(err));
+            async function deleteProdutoLocal() {
+                try {
+                    await deleteProduto(id)
+                    window.location.reload();
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            deleteProdutoLocal()
         }
     }
 
     const handlePreviousPage = () => {
-        if (page > 1) { 
+        if (page > 1) {
             dispatch(definirPageProdutos(page - 1))
         }
     }
 
     const handleNextPage = () => {
-        if (page < totalPages) { 
+        if (page < totalPages) {
             dispatch(definirPageProdutos(page + 1))
         }
     }

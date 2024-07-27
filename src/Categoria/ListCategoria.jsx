@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { definirLista, definirPage, definirTotalPage } from '../redux/reducers/categoriaSlice';
+import { deleteCategoria, getCategoriaPaginada } from '../api/categoria';
 
 
 function ListCategoria() {
@@ -14,39 +15,46 @@ function ListCategoria() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
- 
+
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/category/${page}&10`)
-            .then(res => {   
-                dispatch(definirLista(res.data.categories))
-                dispatch(definirTotalPage(res.data.totalPages))
-                 
-            })
-            .catch(err => console.log(err));
+        async function getCategoria() {
+            try {
+                const resposta = await getCategoriaPaginada(page);
+                dispatch(definirLista(resposta.data.categories))
+                dispatch(definirTotalPage(resposta.data.totalPages))
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+        getCategoria()
     }, [page]);
 
 
     const handleDelete = (id) => {
         const confirm = window.confirm("Você tem certeza que quer deletar?");
         if (confirm) {
-            axios.delete('http://localhost:3000/api/category/' + id)
-                .then(res => {
+            async function deleteCategoriaLocal() {
+                try {
+                    await deleteCategoria(id)
                     window.location.reload();
-                })
-                .catch(err => console.log(err));
-
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            deleteCategoriaLocal()
         }
     }
 
     const handlePreviousPage = () => {
-        if (page > 1) { 
+        if (page > 1) {
             dispatch(definirPage(page - 1))
         }
     }
 
     const handleNextPage = () => {
         if (page < totalPages) {
-            dispatch(definirPage(page + 1)) 
+            dispatch(definirPage(page + 1))
         }
     }
 

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { definirCategoriaFormCreate, limparFormularioCreate } from "../redux/reducers/categoriaSlice";
+import { postCategoria } from "../api/categoria";
 
 
 function CreateCategoria() {
@@ -15,13 +16,13 @@ function CreateCategoria() {
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:3000/api/category', values).
-            then(res => {
-                console.log(res);
-                dispatch(limparFormularioCreate())
-                navigate("/categoria")
-            }).
-            catch(err => console.log(err))
+        try {
+            postCategoria(values)
+            dispatch(limparFormularioCreate())
+            navigate("/categoria")
+        }  catch (error) {
+            console.log(error)
+        }
     }
     
     return (

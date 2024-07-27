@@ -14,6 +14,8 @@ import {
     definirProdutoFormUpdateAndRead,
     definirCategoriaDoProdutorFormUpdateAndRead
 } from "../redux/reducers/produtoSlice";
+import { getCategoria } from "../api/categoria";
+import { getProdutoById, updateProduto } from "../api/produto";
 
 
 
@@ -26,35 +28,49 @@ function UpdateProdutos() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/category')
-            .then(res => dispatch(definirLista(res.data)))
-            .catch(err => console.log(err))
+        async function getCategoriaLocal() {
+            try {
+                const res = await getCategoria()
+                dispatch(definirLista(res.data))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getCategoriaLocal()
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/product/' + id)
-            .then(res => {
-                console.log(res.data)
+        async function getProdutoLocal() {
+            try {
+                const res = await getProdutoById(id)
                 dispatch(definirProdutoFormUpdateAndReadInicial(res.data))
-            })
-            .catch(err => console.log(err));
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getProdutoLocal()
     }, []);
 
     const handleUpdate = (event) => {
         event.preventDefault()
-        axios.put('http://localhost:3000/api/product/' + id, {
-            name: data.name,
-            price: data.price,
-            description: data.description,
-            category: data.category
-        }).then(res => {
-            console.log(res);
-            navigate("/produtos")
-        }).catch(err => console.log(err))
+        async function atualizar() {
+            try {
+                await updateProduto(id, {
+                    name: data.name,
+                    price: data.price,
+                    description: data.description,
+                    category: data.category
+                })
+                navigate("/produtos")
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        atualizar()
     }
 
     const handleChange = (e) => {
-        const { name, value } = e.target; 
+        const { name, value } = e.target;
         if (name === 'category') {
             dispatch(definirCategoriaDoProdutorFormUpdateAndRead(value))
         } else {
