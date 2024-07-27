@@ -6,5 +6,6 @@ Tecnologias:
 - Bootstrap   
 - React   
 - Javascript
+- Redux
 
 Executar localmente: npm run dev
