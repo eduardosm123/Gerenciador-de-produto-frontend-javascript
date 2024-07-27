@@ -5,41 +5,37 @@ import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { definirLista } from '../redux/reducers/categoriaSlice';
+import {
+    definirProdutoFormUpdateAndReadInicial,
+    limparFormularioDeProdutoUpdateAndRead,
+    definirProdutoFormUpdateAndRead,
+    definirCategoriaDoProdutorFormUpdateAndRead
+} from "../redux/reducers/produtoSlice";
+
+
+
 
 function UpdateProdutos() {
-
-    const [data, setData] = useState({
-        _id: '',
-        name: '',
-        price: 0,
-        description: '',
-        category: {
-            name: '',
-            _id: '',
-            createdAt: '',
-            updatedAt: ''
-        },
-        createdAt: '',
-        updatedAt: '',
-        __v: 0
-    })
-    
-    const [categorias, setCategorias] = useState([])
+    const data = useSelector((state) => state.produto.produtoForm.updateAndRead)
+    const dispatch = useDispatch()
+    const categorias = useSelector((state) => state.categoria.categoriasList.lista)
     const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/category')
-            .then(res => setCategorias(res.data))
+            .then(res => dispatch(definirLista(res.data)))
             .catch(err => console.log(err))
     }, []);
-
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/product/' + id)
             .then(res => {
                 console.log(res.data)
-                setData(res.data)
+                dispatch(definirProdutoFormUpdateAndReadInicial(res.data))
             })
             .catch(err => console.log(err));
     }, []);
@@ -51,15 +47,21 @@ function UpdateProdutos() {
             price: data.price,
             description: data.description,
             category: data.category
-        }
-
-        ).
-            then(res => {
-                console.log(res);
-                navigate("/produtos")
-            }).
-            catch(err => console.log(err))
+        }).then(res => {
+            console.log(res);
+            navigate("/produtos")
+        }).catch(err => console.log(err))
     }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target; 
+        if (name === 'category') {
+            dispatch(definirCategoriaDoProdutorFormUpdateAndRead(value))
+        } else {
+            dispatch(definirProdutoFormUpdateAndRead({ campo: name, valor: value }));
+        }
+    }
+
     return (
         <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light">
             <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
@@ -72,7 +74,7 @@ function UpdateProdutos() {
                             className="form-control"
                             placeholder="Digite o nome da Produtos"
                             value={data.name}
-                            onChange={e => setData({ ...data, name: e.target.value })} />
+                            onChange={handleChange} />
                     </div>
                     <div className="mb-2 d-flex flex-column">
                         <label htmlFor="price">Preço do Produtos:</label>
@@ -81,7 +83,7 @@ function UpdateProdutos() {
                             className="form-control"
                             placeholder="Digite o preço"
                             value={data.price}
-                            onChange={e => setData({ ...data, price: e.target.value })} />
+                            onChange={handleChange} />
                     </div>
                     <div className="mb-2 d-flex flex-column">
                         <label htmlFor="description">Descrição do Produtos:</label>
@@ -90,14 +92,14 @@ function UpdateProdutos() {
                             className="form-control"
                             placeholder="Digite a descrição do produto"
                             value={data.description}
-                            onChange={e => setData({ ...data, description: e.target.value })} />
+                            onChange={handleChange} />
                     </div>
                     <div className="mb-2 d-flex flex-column">
                         <label htmlFor="category">Categoria do Produto:</label>
                         <select
                             name="category"
                             className="form-control"
-                            onChange={e => setData({ ...data, category: { name: e.target.value } })}>
+                            onChange={handleChange}>
                             <option value={data.category.name}>{data.category.name}</option>
                             {categorias.map((categoria, index) => (
                                 <option key={index} value={categoria.name}>{categoria.name}</option>

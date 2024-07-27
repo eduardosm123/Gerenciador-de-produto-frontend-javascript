@@ -2,18 +2,25 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { definirLista, definirPage, definirTotalPage } from '../redux/reducers/categoriaSlice';
+
 
 function ListCategoria() {
-    const [data, setData] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const navigate = useNavigate();
+    const data = useSelector((state) => state.categoria.categoriasList.lista)
+    const totalPages = useSelector((state) => state.categoria.categoriasList.totalPages)
+    const page = useSelector((state) => state.categoria.categoriasList.pages)
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+ 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/category/${page}&10`)
-            .then(res => {  
-                setData(res.data.categories); 
-                setTotalPages(res.data.totalPages);
+            .then(res => {   
+                dispatch(definirLista(res.data.categories))
+                dispatch(definirTotalPage(res.data.totalPages))
+                 
             })
             .catch(err => console.log(err));
     }, [page]);
@@ -27,18 +34,19 @@ function ListCategoria() {
                     window.location.reload();
                 })
                 .catch(err => console.log(err));
+
         }
     }
 
     const handlePreviousPage = () => {
-        if (page > 1) {
-            setPage(page - 1);
+        if (page > 1) { 
+            dispatch(definirPage(page - 1))
         }
     }
 
     const handleNextPage = () => {
         if (page < totalPages) {
-            setPage(page + 1);
+            dispatch(definirPage(page + 1)) 
         }
     }
 

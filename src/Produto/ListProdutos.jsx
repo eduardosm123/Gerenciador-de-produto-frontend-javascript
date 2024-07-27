@@ -2,20 +2,28 @@ import axios from "axios";
 import React from "react"
 import { useState } from "react";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { definirListaProdutos,  definirTotalPageProdutos, definirPageProdutos } from "../redux/reducers/produtoSlice";
 
-function ListProdutos() {
-    const [data, setData] = useState([])
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+
+
+function ListProdutos() { 
+
+    const data = useSelector((state) => state.produto.produtosList.lista)
+    const totalPages = useSelector((state) => state.produto.produtosList.totalPages)
+    const page = useSelector((state) => state.produto.produtosList.pages)
+    
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/product/${page}&10`)
-            .then(res => { 
-                setData(res.data.product);
-                setTotalPages(res.data.totalPages);
+            .then(res => {  
+                dispatch(definirListaProdutos(res.data.product))
+                dispatch(definirTotalPageProdutos(res.data.totalPages))
             })
             .catch(err => console.log(err))
     }, [page]);
@@ -33,14 +41,14 @@ function ListProdutos() {
     }
 
     const handlePreviousPage = () => {
-        if (page > 1) {
-            setPage(page - 1);
+        if (page > 1) { 
+            dispatch(definirPageProdutos(page - 1))
         }
     }
 
     const handleNextPage = () => {
-        if (page < totalPages) {
-            setPage(page + 1);
+        if (page < totalPages) { 
+            dispatch(definirPageProdutos(page + 1))
         }
     }
 

@@ -5,24 +5,24 @@ import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { definirCategoriaFormUpdateAndReadInicial, definirCategoriaFormUpdateAndReadName, limparFormularioUpdateAndRead } from "../redux/reducers/categoriaSlice";
+
 
 function UpdateCategoria() {
-    const [data, setData] = useState({
-        _id: '',
-        name: '',
-        createdAt: '',
-        updatedAt: '',
-        __v: ''
-    })
 
+    const data = useSelector((state) => state.categoria.categoriaForm.updateAndRead)
     const { id } = useParams();
     
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     useEffect(() => {
         axios.get('http://localhost:3000/api/category/' + id)
             .then(res => {
-                console.log(res.data)
-                setData(res.data)
+                console.log(res.data)                 
+                dispatch(definirCategoriaFormUpdateAndReadInicial(res.data))
             })
             .catch(err => console.log(err));
     }, []);
@@ -31,7 +31,7 @@ function UpdateCategoria() {
         event.preventDefault()
         axios.put('http://localhost:3000/api/category/' + id, { name: data.name }).
             then(res =>  {
-                console.log(res);
+                dispatch(limparFormularioUpdateAndRead())
                 navigate("/categoria")
             }).
             catch(err => console.log(err))
@@ -47,7 +47,7 @@ function UpdateCategoria() {
                             name="name" 
                             className="form-control" 
                             placeholder="Digite o nome da categoria"
-                            onChange={e =>  setData({ ...data, name: e.target.value })}
+                            onChange={e =>  dispatch(definirCategoriaFormUpdateAndReadName(e.target.value))}
                             value={data.name} />
                     </div>
                     <button className="btn btn-success">Atualizar</button>

@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { definirCategoriaFormUpdateAndReadInicial, limparFormularioUpdateAndRead } from "../redux/reducers/categoriaSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 function ReadCategoria() {
-    const [data, setData] = useState({
-        _id: "",
-        name: "",
-        createdAt: "",
-        updatedAt: "",
-        __v: 0
-    })
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const data = useSelector((state) => state.categoria.categoriaForm.updateAndRead)
 
     const { id } = useParams();
 
@@ -19,10 +21,15 @@ function ReadCategoria() {
         axios.get('http://localhost:3000/api/category/' + id)
             .then(res => {
                 console.log(res.data)
-                setData(res.data)
+                dispatch(definirCategoriaFormUpdateAndReadInicial(res.data))
             })
             .catch(err => console.log(err));
     }, []);
+    const voltar = (event) => {
+        event.preventDefault();
+        dispatch(limparFormularioUpdateAndRead())
+        navigate("/categoria")
+    }
     return (
         <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light">
             <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
@@ -40,7 +47,7 @@ function ReadCategoria() {
                     <strong>Data de Atualização: {data.updatedAt}</strong>
                 </div>
                 <Link to={`/categoria/update/${id}`} className="btn btn-success">Editar</Link>
-                <Link to={`/categoria`} className="btn btn-primary ms-3">Voltar</Link>
+                <button onClick={voltar} className="btn btn-primary ms-3">Voltar</button>
             </div>
         </div>
     )

@@ -4,34 +4,32 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { definirProdutoFormUpdateAndReadInicial, limparFormularioDeProdutoUpdateAndRead } from "../redux/reducers/produtoSlice";
 
 function ReadProduto() {
-    const [data, setData] = useState({
-        _id: String,
-        name: String,
-        price: Number,
-        description: String,
-        category:  {
-            name: String,
-            _id: String,
-            createdAt: String,
-            updatedAt: String
-        },
-        createdAt: String,
-        updatedAt: String,
-        __v: Number
-    })
+     
 
+    const data = useSelector((state) => state.produto.produtoForm.updateAndRead)
+    
+    const dispatch = useDispatch()
     const { id } = useParams();
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/product/' + id)
             .then(res => {
                 console.log(res.data)
-                setData(res.data)
+                dispatch(definirProdutoFormUpdateAndReadInicial(res.data))
             })
             .catch(err => console.log(err));
     }, []);
+
+    const voltar = (event) => {
+        event.preventDefault();
+        dispatch(limparFormularioDeProdutoUpdateAndRead())
+        navigate("/categoria")
+    }
     return (
         <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light">
             <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
@@ -58,7 +56,7 @@ function ReadProduto() {
                     <strong>Data de Atualização: {data.updatedAt}</strong>
                 </div>
                 <Link to={`/produtos/update/${id}`} className="btn btn-success">Editar</Link>
-                <Link to={`/produtos`} className="btn btn-primary ms-3">Voltar</Link>
+                <button onClick={voltar} className="btn btn-primary ms-3">Voltar</button>
             </div>
         </div>
     )
