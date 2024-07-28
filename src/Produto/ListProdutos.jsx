@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { definirListaProdutos, definirTotalPageProdutos, definirPageProdutos } from "../redux/reducers/produtoSlice";
 import { deleteProduto, getProdutoPaginado } from "../api/produto";
+import ButtonBack from "../components/ButtonBack";
+import ButtonRead from "../components/ButtonRead";
+import ButtonDelete from "../components/ButtonDelete";
 
 
 
@@ -70,8 +73,8 @@ function ListProdutos() {
                     <div className="d-flex justify-content-end">
                         <Link to="/produtos/create" className="btn btn-success">Adicionar Produto</Link>
                     </div>
-                    <div className="d-flex justify-content-end">
-                        <Link to="/" className="btn btn-primary ms-3">Voltar</Link>
+                    <div className="d-flex justify-content-end"> 
+                        <ButtonBack link="/"/>
                     </div>
                 </div>
                 <table className="table table-striped">
@@ -92,10 +95,10 @@ function ListProdutos() {
                                 <td>{registro.price}</td>
                                 <td>{registro.description}</td>
                                 <td>{registro.category.name}</td>
-                                <td>
-                                    <Link to={`/produtos/read/${registro._id}`} className="btn btn-sm btn-info me-2">Ler</Link>
+                                <td> 
+                                    <ButtonRead id={registro._id} link={'/produtos/read'} />
                                     <Link to={`/produtos/update/${registro._id}`} className="btn btn-sm btn-primary me-2">Edição</Link>
-                                    <button onClick={e => handleDelete(registro._id)} className="btn btn-sm btn-danger">Delete</button>
+                                    <ButtonDelete func={e => handleDelete(registro._id)}/>
                                 </td>
                             </tr>
 

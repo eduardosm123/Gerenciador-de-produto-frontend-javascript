@@ -16,6 +16,7 @@ import {
 } from "../redux/reducers/produtoSlice";
 import { getCategoria } from "../api/categoria";
 import { getProdutoById, updateProduto } from "../api/produto";
+import ButtonAplicar from "../components/ButtonAplicar";
 
 
 
@@ -122,7 +123,8 @@ function UpdateProdutos() {
                             ))}
                         </select>
                     </div>
-                    <button className="btn btn-success">Atualizar</button>
+
+                    <ButtonAplicar msg="Atualizar" />
                     <Link to={"/produtos"} className="btn btn-primary ms-3">Voltar</Link>
                 </form>
             </div>

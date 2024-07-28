@@ -7,6 +7,11 @@ import { useSelector } from 'react-redux';
 import { definirLista, definirPage, definirTotalPage } from '../redux/reducers/categoriaSlice';
 import { deleteCategoria, getCategoriaPaginada } from '../api/categoria';
 
+import ButtonEdit from '../components/ButtonEdit';
+import ButtonRead from '../components/ButtonRead';
+import ButtonDelete from '../components/ButtonDelete';
+import ButtonBack from '../components/ButtonBack';
+
 
 function ListCategoria() {
     const data = useSelector((state) => state.categoria.categoriasList.lista)
@@ -64,7 +69,7 @@ function ListCategoria() {
             <div className="w-75 rounded bg-white border shadow p-4">
                 <div className="d-flex justify-content-end mb-3">
                     <Link to="/categoria/create" className="btn btn-success">Adicionar categoria</Link>
-                    <Link to="/" className="btn btn-primary ms-3">Voltar</Link>
+                    <ButtonBack link={"/"}/>
                 </div>
                 <table className="table table-striped">
                     <thead>
@@ -80,9 +85,9 @@ function ListCategoria() {
                                 <td>{registro._id}</td>
                                 <td>{registro.name}</td>
                                 <td>
-                                    <Link to={`/categoria/read/${registro._id}`} className="btn btn-sm btn-info me-2">Ler</Link>
-                                    <Link to={`/categoria/update/${registro._id}`} className="btn btn-sm btn-primary me-2">Editar</Link>
-                                    <button onClick={() => handleDelete(registro._id)} className="btn btn-sm btn-danger">Deletar</button>
+                                    <ButtonRead id={registro._id} link={'/categoria/read'}/>
+                                    <ButtonEdit id={registro._id} link="/categoria/update" read={false}/> 
+                                    <ButtonDelete func={() => handleDelete(registro._id)}/>
                                 </td>
                             </tr>
                         )) : (

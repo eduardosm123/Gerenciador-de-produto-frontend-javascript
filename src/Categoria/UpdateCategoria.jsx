@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { definirCategoriaFormUpdateAndReadInicial, definirCategoriaFormUpdateAndReadName, limparFormularioUpdateAndRead } from "../redux/reducers/categoriaSlice";
 import { getCategoriaById, updateCategory } from "../api/categoria";
+import ButtonBack from "../components/ButtonBack";
+import ButtonAplicar from "../components/ButtonAplicar";
 
 
 function UpdateCategoria() {
@@ -57,9 +59,9 @@ function UpdateCategoria() {
                             placeholder="Digite o nome da categoria"
                             onChange={e => dispatch(definirCategoriaFormUpdateAndReadName(e.target.value))}
                             value={data.name} />
-                    </div>
-                    <button className="btn btn-success">Atualizar</button>
-                    <Link to={"/categoria"} className="btn btn-primary ms-3">Voltar</Link>
+                    </div> 
+                    <ButtonAplicar msg="Atualizar"/>
+                    <ButtonBack link={"/categoria"}/>
                 </form>
             </div>
         </div>

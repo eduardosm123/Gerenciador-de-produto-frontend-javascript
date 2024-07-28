@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { definirCategoriaFormCreate, limparFormularioCreate } from "../redux/reducers/categoriaSlice";
 import { postCategoria } from "../api/categoria";
+import ButtonBack from "../components/ButtonBack";
+import ButtonAplicar from "../components/ButtonAplicar";
 
 
 function CreateCategoria() {
@@ -38,8 +40,8 @@ function CreateCategoria() {
                             placeholder="Digite o nome da categoria"
                             onChange={e => dispatch(definirCategoriaFormCreate({ ...values, name: e.target.value }))} />
                     </div>
-                    <button className="btn btn-success">Cadastrar</button>
-                    <Link to={"/categoria"} className="btn btn-primary ms-3">Voltar</Link>
+                    <ButtonAplicar msg="Cadastrar"/>
+                    <ButtonBack link={"/categoria"}/>
                 </form>
             </div>
         </div>

@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { definirProdutoFormUpdateAndReadInicial, limparFormularioDeProdutoUpdateAndRead } from "../redux/reducers/produtoSlice";
 import { getProdutoById } from "../api/produto";
 import { useNavigate } from "react-router-dom";
+import ButtonBack from "../components/ButtonBack";
+
 function ReadProduto() {
 
 
@@ -32,7 +34,7 @@ function ReadProduto() {
     const voltar = (event) => {
         event.preventDefault();
         dispatch(limparFormularioDeProdutoUpdateAndRead())
-        navigate("/categoria")
+        navigate("/produtos")
     }
     return (
         <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light">
@@ -60,7 +62,7 @@ function ReadProduto() {
                     <strong>Data de Atualização: {data.updatedAt}</strong>
                 </div>
                 <Link to={`/produtos/update/${id}`} className="btn btn-success">Editar</Link>
-                <button onClick={voltar} className="btn btn-primary ms-3">Voltar</button>
+                <ButtonBack needFunction={voltar}/ >
             </div>
         </div>
     )

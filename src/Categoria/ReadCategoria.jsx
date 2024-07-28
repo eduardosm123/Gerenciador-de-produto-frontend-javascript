@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCategoriaById } from "../api/categoria";
+import ButtonEdit from "../components/ButtonEdit";
+import ButtonBack from "../components/ButtonBack";
 
 function ReadCategoria() {
 
@@ -51,8 +53,8 @@ function ReadCategoria() {
                 <div className="mb-2">
                     <strong>Data de Atualização: {data.updatedAt}</strong>
                 </div>
-                <Link to={`/categoria/update/${id}`} className="btn btn-success">Editar</Link>
-                <button onClick={voltar} className="btn btn-primary ms-3">Voltar</button>
+                <ButtonEdit id={id} link="/categoria/update" read={true}/>
+                <ButtonBack needFunction={voltar} />
             </div>
         </div>
     )

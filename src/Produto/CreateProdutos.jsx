@@ -10,6 +10,7 @@ import { definirProdutoFormCreate, limparFormularioCreateProduto, definirCategor
 import { definirLista as definirListaCategoria, limparLista as limparListaCategoria } from "../redux/reducers/categoriaSlice";
 import { postProduto } from "../api/produto";
 import { getCategoria } from "../api/categoria";
+import ButtonAplicar from "../components/ButtonAplicar";
 
 function CreateProdutos() {
 
@@ -94,8 +95,8 @@ function CreateProdutos() {
                                 <option key={index} value={categoria.name}>{categoria.name}</option>
                             ))}
                         </select>
-                    </div>
-                    <button className="btn btn-success">Cadastrar</button>
+                    </div> 
+                    <ButtonAplicar msg="Cadastrar"/>
                     <Link to={"/produtos"} className="btn btn-primary ms-3">Voltar</Link>
                 </form>
             </div>
