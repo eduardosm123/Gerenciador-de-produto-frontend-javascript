@@ -41,20 +41,24 @@ function ReadCategoria() {
         <div className="d-flex w-100 vh-100 justify-content-center align-items-center bg-light">
             <div className="w-50 border bg-white shadow px-5 pt-3 pb-5 rounded">
                 <h3>Detalhe da Categoria</h3>
-                <div className="mb-2">
+                <div className="mb-2"  style={{ wordWrap: 'break-word' }}>
                     <strong>ID: {data._id}</strong>
                 </div>
-                <div className="mb-2">
+                <div className="mb-2"  style={{ wordWrap: 'break-word' }}>
                     <strong>Nome: {data.name}</strong>
                 </div>
-                <div className="mb-2">
+                <div className="mb-2"  style={{ wordWrap: 'break-word' }}>
                     <strong>Data de criação: {data.createdAt}</strong>
                 </div>
-                <div className="mb-2">
+                <div className="mb-2"  style={{ wordWrap: 'break-word' }}>
                     <strong>Data de Atualização: {data.updatedAt}</strong>
                 </div>
-                <ButtonEdit id={id} link="/categoria/update" read={true}/>
-                <ButtonBack needFunction={voltar} />
+                <div className="row">
+                    <div className="col-md-5 col-lg-3 col-sm-5 m-1"> <ButtonEdit id={id} link="/categoria/update" className="btn btn-success w-100"/></div>
+                    <div className="col-md-5 col-lg-3 col-sm-5 m-1"> <button onClick={voltar} className="btn btn-primary  w-100">Voltar</button></div>
+                </div>
+               
+                
             </div>
         </div>
     )

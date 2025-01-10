@@ -40,8 +40,14 @@ function CreateCategoria() {
                             placeholder="Digite o nome da categoria"
                             onChange={e => dispatch(definirCategoriaFormCreate({ ...values, name: e.target.value }))} />
                     </div>
-                    <ButtonAplicar msg="Cadastrar"/>
-                    <ButtonBack link={"/categoria"}/>
+                   
+
+                    <div className='row'>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1"> <ButtonAplicar msg="Cadastrar" /></div>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1">
+                            <Link to={"/categoria"} className="btn btn-primary w-100 " >Voltar</Link>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

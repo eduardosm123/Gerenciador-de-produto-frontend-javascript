@@ -66,47 +66,53 @@ function ListProdutos() {
     }
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center bg-light vh-100">
+        <div className="d-flex flex-column justify-content-center align-items-center bg-light">
             <h1>Lista de Produtos</h1>
             <div className="w-75 rounded bg-white border shadow p-4">
                 <div className="d-flex  justify-content-end">
                     <div className="d-flex justify-content-end">
                         <Link to="/produtos/create" className="btn btn-success">Adicionar Produto</Link>
                     </div>
-                    <div className="d-flex justify-content-end"> 
-                        <ButtonBack link="/"/>
+                    <div className="d-flex justify-content-end">
+                        <ButtonBack link="/" />
                     </div>
                 </div>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Preço</th>
-                            <th>Descrição</th>
-                            <th>Categoria</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.length > 0 ? data.map((registro, key) => (
-                            <tr key={key}>
-                                <td>{registro._id}</td>
-                                <td>{registro.name}</td>
-                                <td>{registro.price}</td>
-                                <td>{registro.description}</td>
-                                <td>{registro.category.name}</td>
-                                <td> 
-                                    <ButtonRead id={registro._id} link={'/produtos/read'} />
-                                    <Link to={`/produtos/update/${registro._id}`} className="btn btn-sm btn-primary me-2">Edição</Link>
-                                    <ButtonDelete func={e => handleDelete(registro._id)}/>
-                                </td>
+                <div className="table-responsive mt-1">
+                    <table className="table table-striped table-bordered">
+                        <thead className="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Preço</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Ação</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {data.length > 0 ? data.map((registro, key) => (
+                                <tr key={key}>
+                                    <td>{registro._id}</td>
+                                    <td>{registro.name}</td>
+                                    <td>{registro.price}</td>
+                                    <td>{registro.description}</td>
+                                    <td>{registro.category.name}</td>
+                                    <td>
+                                        <ButtonRead id={registro._id} link={'/produtos/read'} />
+                                        <Link to={`/produtos/update/${registro._id}`} className="btn btn-sm btn-primary me-2">Edição</Link>
+                                        <ButtonDelete func={e => handleDelete(registro._id)} />
 
-                        ))
-                            :
-                            (<h1>Ainda nenhum registro cadastrado</h1>)}
-                    </tbody>
-                </table>
+                                    </td>
+                                     
+                                </tr>
+
+                            ))
+                                :
+                                (<h1>Ainda nenhum registro cadastrado</h1>)}
+                        </tbody>
+                    </table>
+                </div>
+
                 <div className="d-flex justify-content-between mt-3">
                     <button onClick={handlePreviousPage} className="btn btn-secondary" disabled={page === 1}>Anterior</button>
                     <span>Página {page} de {totalPages}</span>

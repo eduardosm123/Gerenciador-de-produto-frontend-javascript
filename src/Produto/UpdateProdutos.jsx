@@ -123,9 +123,14 @@ function UpdateProdutos() {
                             ))}
                         </select>
                     </div>
+ 
 
-                    <ButtonAplicar msg="Atualizar" />
-                    <Link to={"/produtos"} className="btn btn-primary ms-3">Voltar</Link>
+                    <div className='row'>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1"> <ButtonAplicar msg="Editar" /></div>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1">
+                            <button  className="btn btn-primary w-100">Voltar</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

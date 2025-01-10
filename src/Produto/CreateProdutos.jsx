@@ -18,7 +18,7 @@ function CreateProdutos() {
     const categorias = useSelector((state) => state.categoria.categoriasList.lista)
 
     const dispatch = useDispatch()
-    useEffect(() => { 
+    useEffect(() => {
         async function getCategoryLocal() {
             try {
                 const res = await getCategoria()
@@ -95,9 +95,14 @@ function CreateProdutos() {
                                 <option key={index} value={categoria.name}>{categoria.name}</option>
                             ))}
                         </select>
-                    </div> 
-                    <ButtonAplicar msg="Cadastrar"/>
-                    <Link to={"/produtos"} className="btn btn-primary ms-3">Voltar</Link>
+                    </div>
+
+                    <div className='row'>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1"> <ButtonAplicar msg="Cadastrar" /></div>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1">
+                            <button  className="btn btn-primary w-100">Voltar</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

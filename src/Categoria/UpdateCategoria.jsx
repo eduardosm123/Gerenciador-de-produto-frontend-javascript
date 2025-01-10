@@ -59,9 +59,14 @@ function UpdateCategoria() {
                             placeholder="Digite o nome da categoria"
                             onChange={e => dispatch(definirCategoriaFormUpdateAndReadName(e.target.value))}
                             value={data.name} />
-                    </div> 
-                    <ButtonAplicar msg="Atualizar"/>
-                    <ButtonBack link={"/categoria"}/>
+                    </div>  
+
+                     <div className='row'>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1"><ButtonAplicar msg="Editar" /></div>
+                        <div className="col-md-5 col-lg-3 col-sm-5 m-1">
+                            <Link  to={"/categoria"} className="btn btn-primary w-100" >Voltar</Link>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

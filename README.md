@@ -8,4 +8,6 @@ Tecnologias:
 - Javascript
 - Redux
 
-Executar localmente: npm run dev
+Executar localmente: npm run dev  
+
+## adicionar localmente um arquivo .env com a chave VITE_API_URL para especificar a URL do backend

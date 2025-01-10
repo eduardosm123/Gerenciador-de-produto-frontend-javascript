@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 function ButtonAplicar({ msg = 'Aplicar' }) {
     return (
-        <button  className="btn btn-success">{msg}</button>
+        <button  className="btn btn-success  w-100">{msg}</button>
     )
 }
 
