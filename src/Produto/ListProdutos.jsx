@@ -66,7 +66,7 @@ function ListProdutos() {
     }
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center bg-light">
+        <div className="d-flex flex-column justify-content-center align-items-center  ">
             <h1>Lista de Produtos</h1>
             <div className="w-75 rounded bg-white border shadow p-4">
                 <div className="d-flex  justify-content-end">
@@ -97,11 +97,10 @@ function ListProdutos() {
                                     <td>{registro.price}</td>
                                     <td>{registro.description}</td>
                                     <td>{registro.category.name}</td>
-                                    <td>
+                                    <td className="d-flex justify-content-between">
                                         <ButtonRead id={registro._id} link={'/produtos/read'} />
                                         <Link to={`/produtos/update/${registro._id}`} className="btn btn-sm btn-primary me-2">Edição</Link>
                                         <ButtonDelete func={e => handleDelete(registro._id)} />
-
                                     </td>
                                      
                                 </tr>

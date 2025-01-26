@@ -64,7 +64,7 @@ function ListCategoria() {
     }
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center bg-light ">
+        <div className="d-flex flex-column justify-content-center align-items-center ">
             <h1>Lista de Categorias</h1>
             <div className="w-75 rounded bg-white border shadow p-4">
                 <div className="d-flex justify-content-end mb-3">
