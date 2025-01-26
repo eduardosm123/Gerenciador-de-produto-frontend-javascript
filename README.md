@@ -1,13 +1,13 @@
 # Frontend API
 
-Aplicação que permite o cadastro de categorias e produtos com paginação
+Aplicação que permite o cadastro de categorias e produtos com paginação, nela foi possivel aplicar varias tecnologias comuns ao mercado de trabalho, como descritas as seguir:
 
-Tecnologias:   
-- Bootstrap   
-- React   
-- Javascript
-- Redux
-- React Router
+## Tecnologias:   
+- **Bootstrap**   
+- **React**   
+- **Javascript**
+- **Redux**
+- **React Router**
 
 Executar localmente: npm run dev  
 
