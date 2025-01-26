@@ -9,7 +9,11 @@ Aplicação que permite o cadastro de categorias e produtos com paginação, nel
 - **Redux**
 - **React Router**
 
-Executar localmente: npm run dev  
+## Comando relevantes
+
+Executar localmente: 
+
+```npm run dev```  
 
 ## AVISO
 
